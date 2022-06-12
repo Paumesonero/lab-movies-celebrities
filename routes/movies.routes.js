@@ -37,6 +37,17 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+// iteration 8
+
+router.get('/:movieId', async (req, res, next) => {
+    const { movieId } = req.params;
+    try {
+        const movie = await Movies.findById(movieId);
+    } catch (error) {
+
+    }
+})
+
 
 
 
