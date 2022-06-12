@@ -1,1 +1,11 @@
-//  Add your code here
+const mongoose = require('mongoose');
+const { Schema } = mongoose;
+
+const celebritySchema = new Schema({
+    name: String,
+    occupation: String,
+    catchPhrase: String
+})
+
+const Celebrity = mongoose.model('Celebrity.model', celebritySchema);
+module.exports = Celebrity
