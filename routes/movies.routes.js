@@ -49,6 +49,8 @@ router.get('/:movieId', async (req, res, next) => {
     }
 })
 
+// iteration 9
+
 router.post('/:movieId/delete', async (req, res, next) => {
     const { movieId } = req.params;
     try {
@@ -56,6 +58,19 @@ router.post('/:movieId/delete', async (req, res, next) => {
         res.redirect('/movies')
     } catch (error) {
         next(error)
+    }
+})
+
+// iteration 10
+
+router.get('/movieId/edit', async (req, res, next) => {
+    const { movieId } = req.params;
+    try {
+        const movie = await Movies.findById(movieId)
+        const celebrity = await Celebrity.find({})
+        res.render('movies/edit-movie', { movie }, { celebrity })
+    } catch (error) {
+
     }
 })
 
