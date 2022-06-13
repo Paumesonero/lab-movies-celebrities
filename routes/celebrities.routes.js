@@ -1,8 +1,6 @@
 // starter code in both routes/celebrities.routes.js and routes/movies.routes.js
 const router = require("express").Router();
-const { route } = require("express/lib/application");
-const Celebrities = require('../models/Celebrity.model')
-
+const Celebrities = require('../models/Celebrity.model');
 // all your routes here
 
 // Iteration 3
@@ -30,14 +28,6 @@ router.get('/', async (req, res, next) => {
         next(error)
     }
 })
-
-
-
-
-
-
-
-
 
 module.exports = router;
 

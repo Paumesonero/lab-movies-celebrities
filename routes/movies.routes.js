@@ -1,15 +1,14 @@
 // starter code in both routes/celebrities.routes.js and routes/movies.routes.js
 const router = require("express").Router();
 const Movies = require("../models/Movie.model")
-const Celebrities = require('../models/Celebrity.model');
-const async = require("hbs/lib/async");
-const res = require("express/lib/response");
-const req = require("express/lib/request");
+const Celebrity = require('../models/Celebrity.model');
+
+
 
 // all your routes here
 router.get('/create', async (req, res, next) => {
     try {
-        const celebrities = await Celebrities.find({})
+        const celebrities = await Celebrity.find({})
         res.render('movies/new-movie', { celebrities })
     } catch (error) {
         next(error);
@@ -42,15 +41,23 @@ router.get('/', async (req, res, next) => {
 router.get('/:movieId', async (req, res, next) => {
     const { movieId } = req.params;
     try {
-        const movie = await Movies.findById(movieId);
+        const movie = await Movies.findById(movieId).populate('cast');
+        res.render('movies/movie-details', { movie })
+        // console.log(movie)
     } catch (error) {
-
+        next(error)
     }
 })
 
-
-
-
+router.post('/:movieId/delete', async (req, res, next) => {
+    const { movieId } = req.params;
+    try {
+        await Movies.findByIdAndDelete(movieId)
+        res.redirect('/movies')
+    } catch (error) {
+        next(error)
+    }
+})
 
 
 module.exports = router;

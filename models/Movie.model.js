@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { schema } = require('./Celebrity.model');
+// const { Schema } = require('./Celebrity.model');
 const { Schema } = mongoose;
 
 const movieSchema = new Schema({
@@ -9,9 +9,10 @@ const movieSchema = new Schema({
     cast: {
 
         type: [Schema.Types.ObjectId],
-        ref: 'Celebrity'
+        ref: 'Celebrity.model',
     }
 })
 
 const Movie = mongoose.model('Movie.model', movieSchema);
-module.exports = Movie
+
+module.exports = Movie;
