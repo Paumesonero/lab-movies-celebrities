@@ -63,14 +63,25 @@ router.post('/:movieId/delete', async (req, res, next) => {
 
 // iteration 10
 
-router.get('/movieId/edit', async (req, res, next) => {
+router.get('/:movieId/edit', async (req, res, next) => {
     const { movieId } = req.params;
     try {
-        const movie = await Movies.findById(movieId)
+        const movie = await Movies.findById(movieId).populate('cast');
         const celebrity = await Celebrity.find({})
-        res.render('movies/edit-movie', { movie }, { celebrity })
+        res.render('movies/edit-movie', { movie, celebrity })
     } catch (error) {
+        next(error)
+    }
+})
 
+router.post('/:movieId/edit', async (req, res, next) => {
+    const { movieId } = req.params
+    const { title, genre, plot, cast } = req.body
+    try {
+        await Movies.findByIdAndUpdate(movieId, { title, genre, plot, cast }, { new: true })
+        res.redirect(`/movies/${movieId}`)
+    } catch (error) {
+        next(error)
     }
 })
 
