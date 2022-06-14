@@ -66,9 +66,9 @@ router.post('/:movieId/delete', async (req, res, next) => {
 router.get('/:movieId/edit', async (req, res, next) => {
     const { movieId } = req.params;
     try {
-        const movie = await Movies.findById(movieId).populate('cast');
+        const movie = await Movies.findById(movieId);
         const celebrity = await Celebrity.find({})
-        res.render('movies/edit-movie', { movie, celebrity })
+        res.render('movies/edit-movie', movie, { celebrity })
     } catch (error) {
         next(error)
     }
