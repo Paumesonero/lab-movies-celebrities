@@ -1,6 +1,6 @@
 // starter code in both routes/celebrities.routes.js and routes/movies.routes.js
 const router = require("express").Router();
-const Movies = require("../models/Movie.model")
+const Movie = require("../models/Movie.model")
 const Celebrity = require('../models/Celebrity.model');
 
 
@@ -18,7 +18,7 @@ router.get('/create', async (req, res, next) => {
 router.post('/create', async (req, res, next) => {
     const { title, genre, plot, cast } = req.body
     try {
-        await Movies.create({ title, genre, plot, cast });
+        await Movie.create({ title, genre, plot, cast });
         res.redirect("/movies");
     } catch (error) {
         res.redirect('/movies/create');
@@ -29,7 +29,7 @@ router.post('/create', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
     try {
-        const movies = await Movies.find({});
+        const movies = await Movie.find({});
         res.render('movies/movies-view', { movies })
     } catch (error) {
         next(error)
@@ -41,7 +41,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:movieId', async (req, res, next) => {
     const { movieId } = req.params;
     try {
-        const movie = await Movies.findById(movieId).populate('cast');
+        const movie = await Movie.findById(movieId).populate('cast');
         res.render('movies/movie-details', { movie })
         // console.log(movie)
     } catch (error) {
@@ -54,7 +54,7 @@ router.get('/:movieId', async (req, res, next) => {
 router.post('/:movieId/delete', async (req, res, next) => {
     const { movieId } = req.params;
     try {
-        await Movies.findByIdAndDelete(movieId)
+        await Movie.findByIdAndDelete(movieId)
         res.redirect('/movies')
     } catch (error) {
         next(error)
@@ -66,9 +66,9 @@ router.post('/:movieId/delete', async (req, res, next) => {
 router.get('/:movieId/edit', async (req, res, next) => {
     const { movieId } = req.params;
     try {
-        const movie = await Movies.findById(movieId);
+        const movie = await Movie.findById(movieId);
         const celebrity = await Celebrity.find({})
-        res.render('movies/edit-movie', movie, { celebrity })
+        res.render('movies/edit-movie', { movie, celebrity })
     } catch (error) {
         next(error)
     }
@@ -78,7 +78,7 @@ router.post('/:movieId/edit', async (req, res, next) => {
     const { movieId } = req.params
     const { title, genre, plot, cast } = req.body
     try {
-        await Movies.findByIdAndUpdate(movieId, { title, genre, plot, cast }, { new: true })
+        await Movie.findByIdAndUpdate(movieId, { title, genre, plot, cast }, { new: true })
         res.redirect(`/movies/${movieId}`)
     } catch (error) {
         next(error)
